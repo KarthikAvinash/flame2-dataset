@@ -36,9 +36,9 @@ def plot_training(result, type_model, layers_len):
     ax[1].set_title("Accuracy", fontsize=14, fontweight="bold")
     ax[1].set_xlabel("Epoch #", fontsize=14, fontweight="bold")
     ax[1].set_ylabel("Accuracy", fontsize=14, fontweight="bold")
-    ax[1].plot(np.arange(1, epochs+1), result.history['bin_accuracy'], label='Accuracy', linewidth=2.5, linestyle='-',
+    ax[1].plot(np.arange(1, epochs+1), result.history['binary_accuracy'], label='Accuracy', linewidth=2.5, linestyle='-',
                marker='o', markersize='10', color='red')
-    ax[1].plot(np.arange(1, epochs+1), result.history['val_bin_accuracy'], label='Validation_accuracy', linewidth=2.5,
+    ax[1].plot(np.arange(1, epochs+1), result.history['val_binary_accuracy'], label='Validation_accuracy', linewidth=2.5,
                linestyle='--', marker='x', markersize='10', color='blue')
     ax[1].grid(True)
     ax[1].legend(prop={'size': 14, 'weight': 'bold'}, loc='best')
@@ -51,7 +51,7 @@ def plot_training(result, type_model, layers_len):
 
 
 def plot_metrics(history):
-    metrics = ['loss', 'auc', 'precision', 'recall', 'bin_accuracy']
+    metrics = ['loss', 'auc', 'precision', 'recall', 'binary_accuracy']
     epochs = len(history.history['accuracy'])
     (fig, ax) = plt.subplots(1, 5, figsize=(20, 5))
     for n, metric in enumerate(metrics):
