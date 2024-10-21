@@ -120,7 +120,7 @@ def train_keras():
     layers_len = len(model.layers)
 
     if save_model_flag:
-        file_model_fire = 'Output/Models/model_fire_resnet_weighted_40_no_metric_simple'
+        file_model_fire = 'Output/Models/model_fire_resnet_weighted_40_no_metric_simple.keras'
         model.save(file_model_fire)
     if Config_classification.get('TrainingPlot'):
         plot_training(res_fire, 'KerasModel', layers_len)
