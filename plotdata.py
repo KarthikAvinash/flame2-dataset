@@ -19,7 +19,8 @@ import matplotlib.pyplot as plt
 
 def plot_training(result, type_model, layers_len):
     (fig, ax) = plt.subplots(2, 1, figsize=(13, 13))
-    epochs = len(result.history['accuracy'])
+    epochs = len(result.history['accuracy'])  # Using 'accuracy'
+    
     ax[0].set_title("Loss", fontsize=14, fontweight='bold')
     ax[0].set_xlabel("Epoch #", fontsize=14, fontweight="bold")
     ax[0].set_ylabel("Loss", fontsize=14, fontweight="bold")
@@ -36,13 +37,14 @@ def plot_training(result, type_model, layers_len):
     ax[1].set_title("Accuracy", fontsize=14, fontweight="bold")
     ax[1].set_xlabel("Epoch #", fontsize=14, fontweight="bold")
     ax[1].set_ylabel("Accuracy", fontsize=14, fontweight="bold")
-    ax[1].plot(np.arange(1, epochs+1), result.history['binary_accuracy'], label='Accuracy', linewidth=2.5, linestyle='-',
+    ax[1].plot(np.arange(1, epochs+1), result.history['accuracy'], label='Accuracy', linewidth=2.5, linestyle='-',
                marker='o', markersize='10', color='red')
-    ax[1].plot(np.arange(1, epochs+1), result.history['val_binary_accuracy'], label='Validation_accuracy', linewidth=2.5,
+    ax[1].plot(np.arange(1, epochs+1), result.history['val_accuracy'], label='Validation_accuracy', linewidth=2.5,
                linestyle='--', marker='x', markersize='10', color='blue')
     ax[1].grid(True)
     ax[1].legend(prop={'size': 14, 'weight': 'bold'}, loc='best')
     ax[1].tick_params(axis='both', which='major', labelsize=15)
+
     file_figobj = 'Output/FigureObject/%s_%d_EPOCH_%d_layers_opt.fig.pickle' % (type_model, epochs, layers_len)
     file_pdf = 'Output/Figures/%s_%d_EPOCH_%d_layers_opt.pdf' % (type_model, epochs, layers_len)
 
@@ -50,10 +52,12 @@ def plot_training(result, type_model, layers_len):
     fig.savefig(file_pdf, bbox_inches='tight')
 
 
+
 def plot_metrics(history):
-    metrics = ['loss', 'auc', 'precision', 'recall', 'binary_accuracy']
+    metrics = ['loss', 'auc', 'precision', 'recall', 'accuracy']  # Use 'accuracy' instead of 'binary_accuracy'
     epochs = len(history.history['accuracy'])
     (fig, ax) = plt.subplots(1, 5, figsize=(20, 5))
+    
     for n, metric in enumerate(metrics):
         name = metric.replace("_", " ").capitalize()
         ax[n].plot(history.epoch, history.history[metric], linewidth=2.5, linestyle='-', marker='o', markersize='10',
@@ -61,8 +65,6 @@ def plot_metrics(history):
         ax[n].plot(history.epoch, history.history['val_'+metric], linewidth=2.5, linestyle='--', marker='x',
                    markersize='10', color='blue', label='Val')
         ax[n].grid(True)
-        # plt.xlabel('Epoch')
-        # plt.ylabel(name)
         ax[n].set_xlabel("Epoch", fontsize=14, fontweight="bold")
         ax[n].set_ylabel(name, fontsize=14, fontweight="bold")
         ax[n].legend(prop={'size': 14, 'weight': 'bold'}, loc='best')
@@ -73,6 +75,7 @@ def plot_metrics(history):
 
     pickle.dump(fig, open(file_figobj, 'wb'))
     fig.savefig(file_pdf, bbox_inches='tight')
+
 
 
 def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', cmap=plt.cm.Blues):
